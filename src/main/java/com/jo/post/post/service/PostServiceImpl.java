@@ -1,5 +1,6 @@
 package com.jo.post.post.service;
 
+import com.jo.post.post.model.Category;
 import com.jo.post.post.model.Post;
 import com.jo.post.post.model.PostDto;
 import com.jo.post.post.repository.PostRepository;
@@ -20,11 +21,22 @@ public class PostServiceImpl implements PostService{
     @Override
     public void savePost(PostDto postDto) {
         try {
-            postRepository.save(Post.builder()
-                    .category(postDto.getCategory())
-                    .title(postDto.getTitle())
-                    .content(postDto.getContent())
-                    .build());
+            if(postDto.getCategory().equals("인증")) {
+                postRepository.save(Post.builder()
+                        .category(Category.DAILY)
+                        .title(postDto.getTitle())
+                        .content(postDto.getContent())
+                        .build());
+            } else if(postDto.getCategory().equals("자랑")) {
+                postRepository.save(Post.builder()
+                        .category(Category.PHOTO)
+                        .title(postDto.getTitle())
+                        .content(postDto.getContent())
+                        .build());
+            } else {
+                log.error("save post category error : {}", postDto.getCategory());
+            }
+
         } catch (Exception e) {
             log.error("save post error : {}", e.getMessage());
         }
@@ -57,9 +69,17 @@ public class PostServiceImpl implements PostService{
            Post post = postRepository.findById(id).get();
 
            if(post != null) {
-               post.setTitle(postDto.getTitle());
-               post.setContent(postDto.getContent());
-               post.setCategory(postDto.getCategory());
+               if(postDto.getCategory().equals("인증")) {
+                   post.setTitle(postDto.getTitle());
+                   post.setContent(postDto.getContent());
+                   post.setCategory(Category.DAILY);
+               } else if(postDto.getCategory().equals("자랑")) {
+                   post.setTitle(postDto.getTitle());
+                   post.setContent(postDto.getContent());
+                   post.setCategory(Category.PHOTO);
+               } else {
+                   log.error("edit post category error : {}", postDto.getCategory());
+               }
            }
 
            postRepository.save(post);

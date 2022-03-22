@@ -14,8 +14,8 @@ public class Post extends BaseTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
-    private String category;
+    @Column(nullable = false) @Enumerated(EnumType.STRING)
+    private Category category;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
@@ -23,7 +23,7 @@ public class Post extends BaseTime {
 
 
     @Builder
-    public Post(String category, String title, String content) {
+    public Post(Category category, String title, String content) {
         this.category = category;
         this.title = title;
         this.content = content;
