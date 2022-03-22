@@ -1,30 +1,25 @@
-package com.jo.post.post.model;
+package com.jo.post.notification.model;
 
 import com.jo.post.util.BaseTime;
-import lombok.*;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
 @Entity
-public class Post extends BaseTime {
+public class Notification extends BaseTime {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
-    private String category;
-    @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
     private String content;
 
-
     @Builder
-    public Post(String category, String title, String content) {
-        this.category = category;
+    public Notification(String title, String content) {
         this.title = title;
         this.content = content;
     }
